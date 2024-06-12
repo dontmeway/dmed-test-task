@@ -5,4 +5,4 @@ How to start locally
 - pnpm i
 - pnpm dev
 
-Live demo: 
+Live demo: https://dmed-test-task.vercel.app/sign-in
