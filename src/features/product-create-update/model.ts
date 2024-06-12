@@ -19,7 +19,7 @@ export const schema = yup.object().shape({
   model: yup.string().required('Required field'),
   release_year: yup.string().required('Required field'),
   category_id: yup.string().required('Required field'),
-  price: yup.number().required('Required field'),
+  price: yup.number().positive().required('Required field'),
   description: yup.string().required('Required field'),
   is_visible: yup.boolean(),
 })

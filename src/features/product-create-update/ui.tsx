@@ -21,16 +21,17 @@ import * as model from './model'
 import { useGate, useUnit } from 'effector-react'
 
 export const ProductCreateUpdate = () => {
-  const [categories, isOpen, action] = useUnit([
+  const [categories, isOpen, action, pending] = useUnit([
     model.$categories,
     model.disclosure.$isOpen,
     model.$action,
+    model.$pending,
   ])
 
   const {
     control,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { errors, isDirty, isValid, isSubmitted },
     reset,
   } = useForm({
     resolver: yupResolver(model.schema),
@@ -41,7 +42,6 @@ export const ProductCreateUpdate = () => {
   const onSubmit = (data: model.ProductForm) => {
     model.formValidated(data)
   }
-  const pending = false
 
   const title = action === 'create' ? 'Create Product' : 'Update Product'
 
@@ -55,7 +55,7 @@ export const ProductCreateUpdate = () => {
         </Button>,
         <Button
           loading={pending}
-          disabled={!isDirty || !isValid}
+          disabled={!isDirty || (!isValid && isSubmitted)}
           key="submit"
           htmlType="submit"
           type="primary"

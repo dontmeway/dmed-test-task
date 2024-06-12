@@ -1,12 +1,12 @@
 import { RouteInstance } from 'atomic-router'
-
-import { userModel } from '@/entities/user'
-import { attach, createEvent, createStore, sample } from 'effector'
-import { Product, api } from '@/shared/api'
 import { spread } from 'patronum'
+import { attach, createEvent, createStore, sample } from 'effector'
+
 import { productCreateUpdateModel } from '@/features/product-create-update'
 import { productDeleteModel } from '@/features/product-delete'
 import { productFiltersModel } from '@/features/product-filters'
+import { userModel } from '@/entities/user'
+import { Product, api } from '@/shared/api'
 
 export const homePageModel = ({ route }: { route: RouteInstance<Record<string, never>> }) => {
   const authorizedRoute = userModel.chainAuthorized({ route })
@@ -29,12 +29,12 @@ export const homePageModel = ({ route }: { route: RouteInstance<Record<string, n
 
   const $pending = fetchProductsFx.pending
 
-  $page.on(pageChanged, (_, page) => page)
+  $page.on(pageChanged, (_, page) => page).reset(productFiltersModel.filtersChanged)
 
   sample({
     clock: [
       authorizedRoute.opened,
-      $page,
+      pageChanged,
       productCreateUpdateModel.successFullyMutated,
       productDeleteModel.deleted,
       productFiltersModel.filtersChanged,
