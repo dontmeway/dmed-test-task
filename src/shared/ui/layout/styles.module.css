@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+  padding: 24px 48px;
+  flex: 1;
+}
+
+.layout {
+  height: 100%;
+}
+
+.logo {
+  margin: 0 !important;
+}

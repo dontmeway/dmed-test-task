@@ -1,0 +1,14 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: #fff;
+}
+
+body {
+  font-family: 'Inter Variable', sans-serif;
+}
+
+#root {
+  height: 100vh;
+}
