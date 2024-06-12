@@ -4,14 +4,14 @@ import * as model from './model'
 import { useUnit } from 'effector-react'
 
 export const ProductDelete = ({ id }: { id: number }) => {
-  const [isOpen, pending] = useUnit([model.disclosure.$isOpen, model.$pending])
+  const [selectedId, pending] = useUnit([model.$id, model.$pending])
   return (
     <Popconfirm
       title="Delete the product?"
-      open={isOpen}
+      open={selectedId === id}
       description="Are you sure to delete this product?"
       onConfirm={() => model.confirmed()}
-      onCancel={() => model.disclosure.closed()}
+      onCancel={() => model.canceled()}
       okText="Yes"
       cancelText="No"
       disabled={pending}
