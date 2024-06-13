@@ -21,11 +21,12 @@ import * as model from './model'
 import { useGate, useUnit } from 'effector-react'
 
 export const ProductCreateUpdate = () => {
-  const [categories, isOpen, action, pending] = useUnit([
+  const [categories, isOpen, action, pending, imageChanged] = useUnit([
     model.$categories,
     model.disclosure.$isOpen,
     model.$action,
     model.$pending,
+    model.$imageChanged,
   ])
 
   const {
@@ -45,6 +46,8 @@ export const ProductCreateUpdate = () => {
 
   const title = action === 'create' ? 'Create Product' : 'Update Product'
 
+  const isSubmitDisabled = (!isDirty && !imageChanged) || (!isValid && isSubmitted)
+
   return (
     <Modal
       title={title}
@@ -55,7 +58,7 @@ export const ProductCreateUpdate = () => {
         </Button>,
         <Button
           loading={pending}
-          disabled={!isDirty || (!isValid && isSubmitted)}
+          disabled={isSubmitDisabled}
           key="submit"
           htmlType="submit"
           type="primary"
@@ -198,7 +201,7 @@ const ImageField = () => {
         customRequest={() => {}}
         disabled={pending}
         fileList={fileList}
-        onChange={({ file }) => model.imageUploaded(file.originFileObj as File)}
+        onChange={({ file }) => model.imageUploaded((file?.originFileObj as File) ?? null)}
         onRemove={() => {
           model.imageUploaded(null)
         }}

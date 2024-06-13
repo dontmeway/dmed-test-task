@@ -46,7 +46,7 @@ export const homePageModel = ({ route }: { route: RouteInstance<Record<string, n
   sample({
     clock: fetchProductsFx.doneData,
     fn: ({ data, total }) => ({
-      products: data,
+      products: data.map((product) => ({ key: product.id.toString(), ...product })),
       total,
     }),
     target: spread({

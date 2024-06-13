@@ -42,6 +42,8 @@ export const $categories = createStore<{ value: string; label: string }[]>([])
 
 const $categoriesNotFetched = $categories.map((categories) => categories.length === 0)
 
+export const $imageChanged = createStore(false)
+
 const fetchCategoriesFx = attach({
   effect: api.fetchCategoriesFx,
 })
@@ -118,6 +120,7 @@ $categories.on(fetchCategoriesFx.doneData, (_, categories) =>
     value: category.id.toString(),
   })),
 )
+$imageChanged.on(imageUploaded, () => true).reset(disclosure.closed)
 
 sample({
   clock: editTriggered,
@@ -186,6 +189,8 @@ function mapParams(data: ProductForm, image: File | null | string): FormData {
 
   if (image && typeof image !== 'string') {
     formData.append('image', image)
+  } else {
+    formData.append('image', '')
   }
 
   return formData
